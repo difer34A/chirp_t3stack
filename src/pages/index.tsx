@@ -14,9 +14,9 @@ dayjs.extend(relativeTime)
 
 // creating the posts
 const CreatePostWizard = () => {
+    const [input, setInput] = useState("")
     const {user} = useUser();
     if(!user) return null;
-    const [input, setInput] = useState("")
     const ctx = api.useContext();
 
     const {mutate, isLoading: isPosting} = api.posts.create.useMutation({
@@ -74,9 +74,9 @@ const Home: NextPage = () => {
     return (
         <>
             <Head>
-                <title>Create T3 App</title>
+                <title>China Twitter</title>
                 <meta name="description" content="Twitter clone" />
-                <link rel="icon" href="/favicon.ico" />
+                <link rel="icon" href="https://png.pngtree.com/png-vector/20221018/ourmid/pngtree-twitter-social-media-round-icon-png-image_6315985.png" />
             </Head>
             <main className="flex justify-center h-screen">
                 <div className="h-full w-full md:max-w-3xl border-x border-slate-400">
