@@ -6,14 +6,17 @@ import Link from "next/link";
 import { api, RouterOutputs } from "~/utils/api";
 import dayjs from "dayjs"
 import relativeTime from "dayjs/plugin/relativeTime"
+import Image from "next/image";
+
+dayjs.extend(relativeTime)
 
 const CreatePostWizard = () => {
     const {user} = useUser();
     if(!user) return null;
 
     return <div className="flex gap-4 w-full">
-        <img src={user.profileImageUrl} alt="profileImg" className="w-14 aspect-square rounded-full" />
-        <input type="text" placeholder="Type some emojis" className="bg-transparent text-white grow outline-none" />
+        <Image src={user.profileImageUrl} alt="profileImg" className="aspect-square rounded-full" width={56} height={56}/>
+        <input type="text" placeholder="Chirp what is up" className="bg-transparent text-white grow outline-none" />
     </div>
 }
 
@@ -22,9 +25,9 @@ const PostView = (props: PostWithUser) => {
     const {post, author} = props;
     return (
         <div key={post.id} className="p-4 border-b border-slate-400 flex gap-3 items-center">
-            <img src={author.profileImageUrl} alt="author img" className="w-14 aspect-square rounded-full"/>
+            <Image src={author.profileImageUrl} alt="author img" className="w-14 aspect-square rounded-full" width={56} height={56}/>
             <div className="flex flex-col">
-                <div className="text-slate-300 flex gap-1 font-thin"><a className="font-normal cursor-pointer">@{author.username}</a><span>•</span><span>{`1 hour ago`}</span></div>
+                <div className="text-slate-300 flex gap-1 font-thin"><a className="font-normal cursor-pointer">@{author.username}</a><span>•</span><span>{`${dayjs(post.createdAt).fromNow()}`}</span></div>
                 {post.content}
             </div>
         </div>
@@ -52,7 +55,7 @@ const Home: NextPage = () => {
                         {!user.isSignedIn && <div className="flex justify-center"><SignInButton /></div>}
                         {user.isSignedIn && <CreatePostWizard />}
                     </div>
-                    <div className="flex flex-col">
+                    <div className="flex flex-col-reverse">
                         {/* @ts-ignore */}
                         {data?.map((fullPost) => (
                             <PostView {...fullPost} key={fullPost.post.id}/>
