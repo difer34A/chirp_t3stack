@@ -8,19 +8,33 @@ import dayjs from "dayjs"
 import relativeTime from "dayjs/plugin/relativeTime"
 import Image from "next/image";
 import { LoadingPage } from "@components/loading";
+import { useState } from "react";
 
 dayjs.extend(relativeTime)
 
+// creating the posts
 const CreatePostWizard = () => {
     const {user} = useUser();
     if(!user) return null;
+    const [input, setInput] = useState("")
+    const ctx = api.useContext();
+
+    const {mutate, isLoading: isPosting} = api.posts.create.useMutation({
+        onSuccess: () => {
+            setInput("");
+            void ctx.posts.getAll.invalidate();  
+        }
+    });
 
     return <div className="flex gap-4 w-full">
         <Image src={user.profileImageUrl} alt="profileImg" className="aspect-square rounded-full" width={56} height={56}/>
-        <input type="text" placeholder="Chirp what is up" className="bg-transparent text-white grow outline-none" />
+        <input type="text" placeholder="Chirp what is up" className="bg-transparent text-white grow outline-none" 
+        value={input} onChange={(e) => setInput(e.target.value)} disabled={isPosting}/>
+        <button onClick={()=> mutate({content:input})}>Post</button>
     </div>
 }
 
+// displaying each post
 type PostWithUser = RouterOutputs["posts"]["getAll"][number]
 const PostView = (props: PostWithUser) => {
     const {post, author} = props;
@@ -29,19 +43,20 @@ const PostView = (props: PostWithUser) => {
             <Image src={author.profileImageUrl} alt="author img" className="w-14 aspect-square rounded-full" width={56} height={56}/>
             <div className="flex flex-col">
                 <div className="text-slate-300 flex gap-1 font-thin"><a className="font-normal cursor-pointer">@{author.username}</a><span>•</span><span>{`${dayjs(post.createdAt).fromNow()}`}</span></div>
-                {post.content}
+                <span className="text-xl text-slate-100">{post.content}</span>
             </div>
         </div>
     )
 }
 
+// displays the main feed
 const Feed = () => {
     const { data, isLoading:postLoading } = api.posts.getAll.useQuery();
     if(postLoading) return <LoadingPage/>
     if(!data) return <div>Something went wrong</div>
 
     return(
-        <div className="flex flex-col-reverse">
+        <div className="flex flex-col">
             {data?.map((fullPost) => (
                 <PostView {...fullPost} key={fullPost.post.id}/>
             ))}
