@@ -45,7 +45,7 @@ export const postsRouter = createTRPCRouter({
             };
         });
     }),
-    create: privateProcedure.input(z.object({content: z.string().min(1).max(280)})).mutation(async ({ ctx, input }) => {
+    create: privateProcedure.input(z.object({content: z.string().min(5).max(280)})).mutation(async ({ ctx, input }) => {
         const authorId = ctx.userId;
 
         const post = await ctx.prisma.post.create({
