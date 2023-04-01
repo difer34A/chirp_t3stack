@@ -31,7 +31,7 @@ export const PostView = (props: PostWithUser) => {
             void ctx.posts.getPostsByUserId.invalidate();  
             toast.success('Successfully Deleted Post')
         },
-        onError: (e: any) => {
+        onError: (e) => {
             const errorMessage = e.data?.zodError?.fieldErrors.content;
             if (errorMessage && errorMessage[0]) {
             toast.error(errorMessage[0]);
@@ -42,7 +42,7 @@ export const PostView = (props: PostWithUser) => {
     });
 
     return (
-    <div key={post.id} className="group flex items-center border-b border-slate-400 p-4 justify-between">
+    <div key={post.id} className="group flex items-center border-b border-slate-600 p-4 justify-between">
         <div className="flex gap-3 items-center">
             <Image
                 src={author.profileImageUrl}
@@ -66,10 +66,10 @@ export const PostView = (props: PostWithUser) => {
             </div>
         </div>
         {author.username === user?.username &&
-        <button onClick={() => mutate({postId: post.id})}>
+        <button onClick={() => mutate({postId: post.id})} className="opacity-0 group-hover:opacity-100 transition-opacity duration-100 ease-in-out">
             <img
                 src={"https://cdn-icons-png.flaticon.com/512/5028/5028066.png"}
-                className={`h-6 aspect-square rounded-full hidden group-hover:block`}
+                className={`h-6 aspect-square rounded-full`}
                 alt={`@${author.username}'s profile picture`}
             />
         </button>

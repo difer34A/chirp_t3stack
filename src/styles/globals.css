@@ -17,7 +17,7 @@ body {
   
   /* Handle */
   ::-webkit-scrollbar-thumb {
-    background: #adfffb86;
+    @apply bg-Primary-500;
     border-radius: 25px;
   }
   

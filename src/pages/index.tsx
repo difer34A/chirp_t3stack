@@ -46,13 +46,13 @@ const CreatePostWizard = () => {
         }
     });
 
-    return <div className="flex gap-4 w-full transition duration-500">
+    return <div className="flex gap-4 w-full transition duration-500 place-items-center">
         <Image src={user.profileImageUrl} alt="profileImg" className="aspect-square rounded-full" width={56} height={56}/>
-        <input type="text" placeholder="Chirp what is up" className="bg-transparent text-white grow outline-none" 
+        <input type="text" placeholder="What is happening?" className="bg-transparent text-white grow outline-none" 
         value={input} onKeyDown={(e)=>{if(e.key === "Enter"){e.preventDefault(); if(input !== ""){mutate({content:input})}}}}
         onChange={(e) => setInput(e.target.value)} disabled={isPosting} autoComplete="off"/>
 
-        {(input.length > 5 && !isPosting) && <button onClick={()=> mutate({content:input})}>Post</button>}
+        {(input.length > 5 && !isPosting) && <button className="bg-Primary-500 rounded-lg h-10 w-14 font-bold" onClick={()=> mutate({content:input})}>Post</button>}
         {isPosting && <div className="h-full flex place-items-center justify-center"><LoadingSpinner spinnerSize={20}/></div>}
         
     </div>
@@ -68,7 +68,7 @@ const Feed = () => {
     if(!data) return <div>Something went wrong</div>
 
     return(
-        <div className="flex flex-col border-slate-400">
+        <div className="flex flex-col">
             {data?.map((fullPost) => (
                 <PostView {...fullPost} key={fullPost.post.id}/>
             ))}
@@ -91,10 +91,17 @@ const Home: NextPage = () => {
                 <link rel="icon" href="https://png.pngtree.com/png-vector/20221018/ourmid/pngtree-twitter-social-media-round-icon-png-image_6315985.png" />
             </Head>
             <PageLayout>
-                <div className="border-b border-slate-400 p-4 flex">
-                        {!isSignedIn && <div className="flex justify-center"><SignInButton /></div>}
-                        {isSignedIn && <CreatePostWizard />}
+                <div>
+                   <div className="flex place-items-center border-b border-slate-600">
+                        <h1 className="font-bold m-4 text-xl">Home</h1>
+                    </div>
+                    <div className="p-4 flex">
+                            {!isSignedIn && <div className="flex justify-center"><SignInButton /></div>}
+                            {isSignedIn && <CreatePostWizard />}
+                    </div>
+                    <div className="h-4 w-full bg-slate-800"><div></div></div> 
                 </div>
+                
                 <Feed/>
             </PageLayout>
         </>
