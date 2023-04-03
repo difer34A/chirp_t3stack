@@ -1,10 +1,19 @@
 import type { PropsWithChildren } from "react";
-export const PageLayout = (props: PropsWithChildren) => {
+export const FeedLayout = (props: PropsWithChildren) => {
   return (
-    <main className="overflow-none flex h-screen justify-center">
-      <div className="flex h-full w-full flex-col border-x border-slate-500 md:max-w-4xl overflow-y-scroll">
+    <main className="overflow-none flex justify-center w-full">
+      <div className="flex h-full w-full flex-col sm:border-x max-w-[1000px] overflow-y-scroll border-slate-500">
         {props.children}
+        <div className="block h-12 sm:hidden w-full"><div/></div>
       </div>
     </main>
   );
+};
+
+export const PageLayout = (props: PropsWithChildren) => {
+    return (
+      <main className="flex flex-col sm:flex-row w-screen h-screen">
+          {props.children}
+      </main>
+    );
 };

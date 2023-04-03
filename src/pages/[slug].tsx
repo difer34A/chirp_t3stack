@@ -1,7 +1,7 @@
 import type { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { api } from "~/utils/api";
-import { PageLayout } from "~/components/layout";
+import { FeedLayout } from "~/components/layout";
 import Image from "next/image";
 import { LoadingPage } from "~/components/loading";
 import { PostView } from "~/components/postview";
@@ -36,9 +36,7 @@ const ProfilePage: NextPage<{ username: string }> = ({ username }) => {
             <Head>
                 <title>{data.username ?? data.externalUsername}</title>
             </Head>
-            <PageLayout>
-                {/* twitter icon. route to home onClick */}
-                <BackToHome />
+            <FeedLayout>
                 <div>
                     <div className="relative">
                         <div className="relative h-64 bg-slate-000">
@@ -58,7 +56,7 @@ const ProfilePage: NextPage<{ username: string }> = ({ username }) => {
                 </div>
 
                 <ProfileFeed userId={data.id} />
-            </PageLayout>
+            </FeedLayout>
         </>
     );
 };

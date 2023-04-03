@@ -42,8 +42,8 @@ export const PostView = (props: PostWithUser) => {
     });
 
     return (
-    <div key={post.id} className="group flex items-center border-b border-slate-600 p-4 justify-between">
-        <div className="flex gap-3 items-center">
+    <div key={post.id} className="group flex items-center border-b border-slate-600 p-4 justify-between relative">
+        <div className="flex gap-3 items-center break-all">
             <Image
                 src={author.profileImageUrl}
                 className="h-14 w-14 rounded-full"
@@ -66,10 +66,10 @@ export const PostView = (props: PostWithUser) => {
             </div>
         </div>
         {author.username === user?.username &&
-        <button onClick={() => mutate({postId: post.id})} className="opacity-0 group-hover:opacity-100 transition-opacity duration-100 ease-in-out">
+        <button onClick={() => mutate({postId: post.id})} className="absolute right-6 opacity-0 group-hover:opacity-100 transition-opacity duration-100 ease-in-out">
             <img
                 src={"https://cdn-icons-png.flaticon.com/512/5028/5028066.png"}
-                className={`h-6 aspect-square rounded-full`}
+                className={`h-7 aspect-square rounded-full`}
                 alt={`@${author.username}'s profile picture`}
             />
         </button>
