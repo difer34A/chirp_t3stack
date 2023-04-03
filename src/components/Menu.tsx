@@ -6,8 +6,7 @@ import ButtonHover from './ButtonHover';
 
 export default function Menu() {
     const [open, setOpen] = useState(false)
-    var { user } = useUser();
-    if(!user){user = null}
+    const { user=null } = useUser();
     return (
         <>
             <div className='fixed flex bottom-0 h-12 z-20 w-full border-t border-slate-500 place-items-center justify-around bg-black border p-4
@@ -36,13 +35,14 @@ export default function Menu() {
 
                 {/* if logged in userimage | if not placeholder */}
                 <div>
-                    {user !== null && 
+                    {user !== null ?  
                     <div className='relative'>
                         <Image src={user?.profileImageUrl} width={40} height={40} onClick={()=>setOpen(!open)}
                         className='rounded-full object-contain hover:opacity-90 hover:scale-105 duration-200' alt='userProfilePic'></Image>
                         {open && 
                         <div className='absolute w-40 h-20 border border-slate-500 rounded-xl top-0 -translate-y-[84px] -translate-x-1/3 sm:-translate-x-[5px] bg-black'>
-                            <Link href={`/@${user?.username}`} className='w-full font-bold h-1/2 flex place-items-center justify-center text-center border-b border-slate-500 gap-1'>
+                            {/* @ts-ignore */}
+                            <Link href={`/@ ${user?.username}`} className='w-full font-bold h-1/2 flex place-items-center justify-center text-center border-b border-slate-500 gap-1'>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 aspect-square">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
                                 </svg>
@@ -55,8 +55,9 @@ export default function Menu() {
                                 <SignOutButton/>
                             </div>
                         </div>}
-                    </div>}
-                    {user === null && 
+                        
+                    </div> :
+                    
                         <SignInButton mode='modal'>
                             <div className='h-10 aspect-square flex place-items-center justify-center bg-slate-800 rounded-full bg-opacity-0 hover:bg-opacity-100 duration-200 hover:scale-110'>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-8 aspect-square">

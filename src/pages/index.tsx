@@ -53,7 +53,7 @@ const CreatePostWizard = () => {
             value={input} onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); if (input !== "") { mutate({ content: input }) } } }}
             onChange={(e) => setInput(e.target.value)} disabled={isPosting} autoComplete="off" />
 
-        <button className={`bg-Primary-500 rounded-lg h-10 w-14 font-bold ${!(input.length > 5 && !isPosting) && `opacity-50`}`} onClick={() => mutate({ content: input })}>Post</button>
+        <button disabled={isPosting || input.length < 5} className={`bg-Primary-500 rounded-lg h-10 w-14 font-bold ${(input.length < 5) ? "opacity-50 " : "opacity-100 "} ${isPosting ? "hidden" : "visible"}`} onClick={() => mutate({ content: input })}>Post</button>
         {isPosting && <div className="h-full flex place-items-center justify-center"><LoadingSpinner spinnerSize={20} /></div>}
 
     </div>
