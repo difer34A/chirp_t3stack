@@ -42,7 +42,7 @@ export const PostView = (props: PostWithUser) => {
     });
 
     return (
-    <div key={post.id} className="group flex items-center border-b border-slate-600 p-4 justify-between">
+    <div key={post.id} className="group flex items-center border-b border-slate-600 p-4 justify-between w-full relative">
         <div className="flex gap-3 items-center">
             <Image
                 src={author.profileImageUrl}
@@ -51,22 +51,22 @@ export const PostView = (props: PostWithUser) => {
                 width={56}
                 height={56}
             />
-            <div className="flex flex-col">
+            <div className="flex flex-col w-fit break-all">
                 <div className="flex gap-1 text-slate-300">
-                <Link href={`/@${author.username}`}>
-                    <span>{`@${author.username} `}</span>
-                </Link>
-                <Link href={`/post/${post.id}`}>
-                    <span className="font-thin">{` · ${dayjs(
-                    post.createdAt
-                    ).fromNow()}`}</span>
-                </Link>
+                    <Link href={`/@${author.username}`}>
+                        <span>{`@${author.username} `}</span>
+                    </Link>
+                    <Link href={`/post/${post.id}`}>
+                        <span className="font-thin">{` · ${dayjs(
+                        post.createdAt
+                        ).fromNow()}`}</span>
+                    </Link>
                 </div>
-                {isValidHttpUrl(post.content) ? <a href={post.content} target="_blank" className="text-xl underline underline-offset-1">{post.content}</a>:<span className="text-xl">{post.content}</span>}
+                {isValidHttpUrl(post.content) ? <a href={post.content} target="_blank" className="text-xl underline underline-offset-1">{post.content}</a>:<span className="text-xl break-words">{post.content}</span>}
             </div>
         </div>
         {author.username === user?.username &&
-        <button onClick={() => mutate({postId: post.id})} className="opacity-0 group-hover:opacity-100 transition-opacity duration-100 ease-in-out">
+        <button onClick={() => mutate({postId: post.id})} className="opacity-0 absolute right-6 group-hover:opacity-100 transition-opacity duration-100 ease-in-out z-10">
             <img
                 src={"https://cdn-icons-png.flaticon.com/512/5028/5028066.png"}
                 className={`h-6 aspect-square rounded-full`}
